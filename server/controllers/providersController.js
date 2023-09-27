@@ -2,7 +2,38 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const { deleteDishModel, addProviderModel, addDishModel, editDishModel, currentlyOnMenuModel, currentlyOffMenuModel } = require('../models/providersModel');
-const {getAllergiesFromIngredients}  = require('../server');
+// const {getAllergiesFromIngredients}  = require('../server.js');
+require("dotenv").config();
+const OpenAI = require("openai");
+const allergyList = require('../allergens');
+
+
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  async function getAllergiesFromIngredients(ingredientsString) {
+    const prompt = `New Request: Ignore all previous history. Examine the given list of allergens and identify the corresponding IDs that match with the 'ingredientsString'. Note: Your output should exclusively be an array containing the IDs of the matching allergens from the 'allergenList'. An empty array should be returned if there are no matches. Any other response format is unacceptable. Allergen List: ${allergyList}, Ingredients: ${ingredientsString}.`;
+    const chatCompletion = await openai.chat.completions.create({
+      model: 'gpt-4',
+      messages: [
+        {
+          role: 'system',
+          content: prompt,
+        },
+        {
+          role: 'user',
+          content: 'Find matching allergies.',
+        },
+      ],
+      max_tokens: 100,
+    });
+  
+    const processedResponseArray = chatCompletion.choices[0].message.content.trim();
+    return processedResponseArray;
+  }
+
 
 async function deleteDish(req, res) {
     try {
@@ -50,6 +81,7 @@ async function addDish(req, res) {
     try {
         const providerId = req.body.providerId;
         const newDish = req.body.dishes;
+        console.log(newDish.ingredients.join(", "));
         const allergies = await getAllergiesFromIngredients(newDish.ingredients.join(", "));
         console.log(allergies);
 
@@ -114,5 +146,8 @@ async function currentlyOffMenu(req, res) {
         res.status(500).send('Error setting dish to be currently off menu');
     }
 }
+
+
+
 
 module.exports = { deleteDish, addProvider, addDish, editDish, currentlyOnMenu, currentlyOffMenu };
