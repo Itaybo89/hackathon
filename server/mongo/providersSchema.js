@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const dishSchema = new Schema({
   dishName: { type: String, required: true },
   ingredients: [{ type: String, required: true }],
-  allergies: [{ type: String }], 
+  allergies: { type: Array },
   onMenu: { type: Boolean, default: true },  
   mayContain: [{ type: String }],
   freeText: { type: String },  

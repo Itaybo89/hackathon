@@ -7,16 +7,18 @@ const providersController = require('../controllers/providersController');
 console.log("Type of authenticateJWT: ", typeof authenticateJWT);
 
 
+
 router.post('/', providersController.addProvider);
 
-// router.post('/',authenticateJWT, providersController.adddish);
+router.post('/adddish', providersController.addDish);
 
-// router.post('/currentlyonmenu', authenticateJWT, providersController.currentlyonmenu);
+router.post('/currentlyonmenu', authenticateJWT, providersController.currentlyOnMenu);
 
-// router.post('/currentlyoffmenu', authenticateJWT, providersController.currentlyoffmenu);
-// router.delete('/:id',authenticateJWT, providersController.deleteDish);
+router.post('/currentlyoffmenu', authenticateJWT, providersController.currentlyOffMenu);
 
-// router.patch('/edit/:id', authenticateJWT, providersController.editdish);
+router.delete('/:id',authenticateJWT, providersController.deleteDish);
+
+router.patch('/edit/:id', authenticateJWT, providersController.editDish);
 
 
 

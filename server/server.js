@@ -3,7 +3,9 @@ const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const OpenAI = require("openai");
-const connectDB = require('./mongo/db'); 
+const connectDB = require('./mongo/db');
+const allergyList = require('./allergens');
+
 
 require("dotenv").config();
 
@@ -20,43 +22,30 @@ server.use(cors({ origin: "http://localhost:3000", credentials: true }));
 server.use(express.json());
 server.use(cookieParser());
 
-server.post("/adddish", async (req, res) => {
-  const searchString = req.body.searchString;
-  try {
-    const pets = await dbConnection("pets").select("*");
-    const prompt = `Disregard every message that came before this one; this is a new request and should not use any prior history. Find pets which match the following search line within the provided database. Return only an array of pet IDs that match the search criteria. No other types of responses are acceptable., Search string: ${searchString}, Data Base: ${JSON.stringify(
-      pets
-    )}`;
-
-    const chatCompletion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: prompt,
-        },
-        {
-          role: "user",
-          content: "Find matching pets.",
-        },
-      ],
-      max_tokens: 100,
-    });
-
-    const processedResponse = chatCompletion.choices[0].message.content.trim();
-    const processedResponseArray = JSON.parse(processedResponse);
-    const filteredPets = pets.filter((pet) =>
-      processedResponseArray.includes(pet.petID)
-    );
-    res.json({ filteredPets: filteredPets });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 server.use("/providers", providersRoutes);
 server.use("/users", usersRoutes);
+
+async function getAllergiesFromIngredients(ingredientsString) {
+  const prompt = `New Request: Ignore all previous history. Examine the given list of allergens and identify the corresponding IDs that match with the 'ingredientsString'. Note: Your output should exclusively be an array containing the IDs of the matching allergens from the 'allergenList'. An empty array should be returned if there are no matches. Any other response format is unacceptable. Allergen List: ${allergyList}, Ingredients: ${ingredientsString}.`;
+  const chatCompletion = await openai.chat.completions.create({
+    model: 'gpt-4',
+    messages: [
+      {
+        role: 'system',
+        content: prompt,
+      },
+      {
+        role: 'user',
+        content: 'Find matching allergies.',
+      },
+    ],
+    max_tokens: 100,
+  });
+
+  const processedResponseArray = chatCompletion.choices[0].message.content.trim();
+  return processedResponseArray;
+}
+
 
 
 async function init() {
@@ -67,3 +56,5 @@ async function init() {
   }
   
   init();
+
+  module.exports = (getAllergiesFromIngredients) ;

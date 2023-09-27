@@ -1,7 +1,23 @@
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const { addProviderModel, addDishModel, editDishModel, currentlyOnMenuModel, currentlyOffMenuModel } = require('../models/providersModel');
+const { deleteDishModel, addProviderModel, addDishModel, editDishModel, currentlyOnMenuModel, currentlyOffMenuModel } = require('../models/providersModel');
+const {getAllergiesFromIngredients}  = require('../server');
+
+async function deleteDish(req, res) {
+    try {
+        const { providerId, dishId } = req.body;
+        const result = await deleteDishModel(providerId, dishId);
+        if (result) {
+            res.status(200).send('Successfully deleted dish.');
+        } else {
+            res.status(404).send('Dish not found.');
+        }
+    } catch (err) {
+        console.error("Error Details:", err);
+        res.status(500).send('Failed to delete dish.');
+    }
+}
 
 async function addProvider(req, res) {
     try {
@@ -32,14 +48,20 @@ async function addProvider(req, res) {
 
 async function addDish(req, res) {
     try {
-        const dishDetails = req.body;
-        const newDish = await addDishModel(dishDetails);
-        res.status(201).send('Added dish, backend');
+        const providerId = req.body.providerId;
+        const newDish = req.body.dishes;
+        const allergies = await getAllergiesFromIngredients(newDish.ingredients.join(", "));
+        console.log(allergies);
+
+        await addDishModel(providerId, newDish);
+
+        res.status(200).send('Added dish and updated allergies');
     } catch (err) {
         console.error("Error Details:", err);
-        res.status(500).send('Failed to add dish, backend');
+        res.status(500).send('Failed to add dish and update allergies');
     }
 }
+
 
 async function editDish(req, res) {
     try {
@@ -93,4 +115,4 @@ async function currentlyOffMenu(req, res) {
     }
 }
 
-module.exports = { addProvider, addDish, editDish, currentlyOnMenu, currentlyOffMenu };
+module.exports = { deleteDish, addProvider, addDish, editDish, currentlyOnMenu, currentlyOffMenu };
