@@ -1,0 +1,7 @@
+.dishes-list {
+    padding: 1.5rem;
+}
+
+.dishes-list .card {
+    max-width: 25vw;
+}
