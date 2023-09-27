@@ -4,4 +4,5 @@
 
 .dishes-list .card {
     max-width: 25vw;
+    margin-bottom: 0.2rem;
 }

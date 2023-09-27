@@ -14,7 +14,7 @@ const DishCard = ({ title, allergens, checked }) => {
                 <div className="dish-allergens">
                     {allergens.join(', ')}
                 </div>
-                <Form.Check type="switch" id="custom-switch" label="On menu" checked={isChecked} onChange={e => setIsChecked(!isChecked)} />
+                <Form.Check type="switch" id="custom-switch" label={isChecked ? ('On menu') : ('Off menu')} checked={isChecked} onChange={e => setIsChecked(!isChecked)} />
             </Card.Body>
         </Card>
     );

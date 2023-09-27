@@ -4,12 +4,14 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-    const mockUser = {
-        name: 'Dror'
-    }
+    const [loggedinUser, setLoggedinUser] = useState({});
 
-    const [loggedinUser, setLoggedinUser] = useState(mockUser);
-    const [currentUserAllergens, setCurrentUserAllergens] = useState([]);
+    const getLoggedInUser = () => {
+        const mockUser = {
+            name: 'Dror'
+        }
+        setLoggedinUser(mockUser);
+    }
 
     return (
         <AuthContext.Provider value={{ loggedinUser }}>

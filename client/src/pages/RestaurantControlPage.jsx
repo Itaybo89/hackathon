@@ -1,16 +1,19 @@
-import React from 'react';
+import { useState, useContext } from 'react';
 
+import { RestaurantContext } from '../contexts/RestaurantContext';
 import ClientNavbar from '../components/ClientNavbar';
 import RestauranDishesList from '../components/RestauranDishesList';
 import AddDish from '../components/AddDish';
 import '../css/RestaurantControlPage.css';
 
 const RestaurantControlPage = () => {
+    const { currentRestaurant, currentDishes } = useContext(RestaurantContext);
+
     return (<>
         <ClientNavbar />
-        <h1>Golden Apple Dashboard</h1>
+        <h1>{currentRestaurant.name} Dashboard</h1>
         <main className="restaurant-control-main">
-            <RestauranDishesList />
+            <RestauranDishesList dishes={currentDishes} />
             <AddDish />
         </main>
     </>);

@@ -1,27 +1,40 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Button from 'react-bootstrap/Button';
 
+import { AuthContext } from '../contexts/AuthContext';
 import ClientNavbar from '../components/ClientNavbar';
 import '../css/LoginPage.css';
 
 const LoginPage = () => {
     const [loginFormHolder, setLoginFormHolder] = useState({
-        firstName: '',
-        lastName: '',
         email: '',
-        password: '',
-        rePassword: ''
+        password: ''
     });
+
+    const { signUserUp, logUserIn, token, userId } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handleLoginFields = (e) => {
         const { name, value } = e.target;
         setLoginFormHolder({ ...loginFormHolder, [name]: value });
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
+
+        const userInfo = {
+            email: loginFormHolder.email,
+            password: loginFormHolder.password,
+        };
+        const res = await logUserIn(userInfo);
+        console.log(userId);
+        if (res) {
+            navigate('/game');
+        }
     }
 
     return (<>
