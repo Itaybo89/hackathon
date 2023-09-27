@@ -1,12 +1,21 @@
-import React from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import '../css/ClientPage.css';
+import { AuthContext } from '../contexts/AuthContext';
 import ClientNavbar from '../components/ClientNavbar';
 import MenuItem from '../components/MenuItem';
 
 const ClientPage = () => {
+    const { loggedinUser } = useContext(AuthContext);
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loggedinUser) {
+            navigate('/login');
+        }
+    }, []);
 
     return (<>
         <ClientNavbar />

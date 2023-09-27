@@ -7,14 +7,15 @@ import '../css/ClientNavbar.css'
 
 const ClientNavbar = () => {
     return (
-        <Container className="navbar-container">
-            <Navbar>
+
+        <Navbar bg="info" data-bs-theme="info">
+            <Container >
                 <Navbar.Brand>AppName</Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
                     <FaUserCircle style={{ color: 'white' }} />
                 </Navbar.Collapse>
-            </Navbar>
-        </Container>
+            </Container>
+        </Navbar>
     );
 };
 

@@ -9,17 +9,3 @@ hr {
 main {
     padding: 0.5rem;
 }
-
-.restaurant-line {
-    font-size: 1.2rem;
-    line-height: 2.5;
-}
-
-.restaurant-name {
-    font-weight: bold;
-}
-
-.explanation {
-    font-weight: 600;
-    margin-bottom: 1rem;
-}

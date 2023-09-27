@@ -1,0 +1,12 @@
+.restaurant-control-main {
+    display: flex;
+}
+
+.dishes-list {
+    flex-grow: 1;
+    max-width: 30vw;
+}
+
+.add-dish {
+    flex-grow: 2;
+}

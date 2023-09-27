@@ -3,3 +3,17 @@
 * {
     font-family: 'Figtree', Arial, Helvetica, sans-serif;
 }
+
+.restaurant-line {
+    font-size: 1.2rem;
+    line-height: 2.5;
+}
+
+.restaurant-name {
+    font-weight: bold;
+}
+
+.explanation {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
