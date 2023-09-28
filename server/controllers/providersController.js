@@ -5,6 +5,7 @@ const { addProviderModel, addDishModel, currentlyOnMenuModel, currentlyOffMenuMo
 require("dotenv").config();
 const OpenAI = require("openai");
 const allergyList = require('../allergens');
+const {User} = require('../mongo/usersSchema');
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
