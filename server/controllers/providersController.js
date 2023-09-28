@@ -85,10 +85,11 @@ const openai = new OpenAI({
 
 async function addDish(req, res) {
     try {
-        const providerId = req.body.providerId;
-        const newDish = req.body.dishes;
-        console.log(newDish.ingredients.join(", "));
-        const allergies = await getAllergiesFromIngredients(newDish.ingredients.join(", "));
+        const providerId = req.user._id;
+        const newDish = req.body;
+        console.log(req.body);
+
+        const allergies = await getAllergiesFromIngredients(req.body.ingredients.join(", "));
         newDish.allergies = allergies; 
 
         await addDishModel(providerId, newDish);
