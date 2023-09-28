@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import QRCode from "react-qr-code";
 
 import { RestaurantContext } from '../contexts/RestaurantContext';
 import ClientNavbar from '../components/ClientNavbar';
@@ -11,7 +12,10 @@ const RestaurantControlPage = () => {
 
     return (<>
         <ClientNavbar />
-        <h1>{currentRestaurant.name} Dashboard</h1>
+        <div className="top-part">
+            <h1>{currentRestaurant.name} Dashboard</h1>
+            <QRCode value={`www.scaneat.com/client-page/${currentRestaurant.id}`} />
+        </div>
         <main className="restaurant-control-main">
             <RestauranDishesList dishes={currentDishes} />
             <AddDish />
