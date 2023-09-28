@@ -16,7 +16,7 @@ router.post('/currentlyonmenu', authenticateJWT, providersController.currentlyOn
 
 router.post('/currentlyoffmenu', authenticateJWT, providersController.currentlyOffMenu);
 
-router.get('/restaraunt/:id', authenticateJWT, providersController.getAllDishes);
+router.get('/restaurant/:id', authenticateJWT, providersController.getAllDishes);
 
 
 
