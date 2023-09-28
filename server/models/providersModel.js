@@ -6,6 +6,7 @@ async function addProviderModel(providerDetails) {
   }
 
 async function addDishModel(providerId, newDish) {
+  console.log(newDish);
     return await Provider.findByIdAndUpdate(
         providerId,
         { $push: { dishes: newDish } },

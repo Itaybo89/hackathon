@@ -28,7 +28,7 @@ const ClientPage = () => {
 
     const navigate = useNavigate();
 
-    const getAllData = async (loggedinUser) => {
+    const getAllData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/providers/restaurant/${restaurantid}`, { withCredentials: true });
             console.log(response.data);

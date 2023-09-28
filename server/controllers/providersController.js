@@ -6,6 +6,23 @@ require("dotenv").config();
 const OpenAI = require("openai");
 const allergyList = require('../allergens');
 const {User} = require('../mongo/usersSchema');
+const {Provider} = require('../mongo/providersSchema');
+const allergyListNice = [
+  "Celery",
+  "Gluten",
+  "Crustaceans",
+  "Eggs",
+  "Fish",
+  "Lupin",
+  "Milk",
+  "Molluscs",
+  "Mustard",
+  "Nuts",
+  "Peanuts",
+  "Sesame seeds",
+  "Sulphur dioxide",
+  "Soya"
+];
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -64,13 +81,15 @@ const openai = new OpenAI({
     }
   }
  
+
+
 async function addDish(req, res) {
     try {
         const providerId = req.body.providerId;
         const newDish = req.body.dishes;
         console.log(newDish.ingredients.join(", "));
         const allergies = await getAllergiesFromIngredients(newDish.ingredients.join(", "));
-        console.log(allergies);
+        newDish.allergies = allergies; 
 
         await addDishModel(providerId, newDish);
 
@@ -116,40 +135,43 @@ async function currentlyOffMenu(req, res) {
 }
 
 async function getAllDishes(req, res) {
-    try {
-      const restaurantId = req.params.restaurantId;
-      const userId = req.user.userID; 
-  
-      const user = await User.findOne({ _id: userId });
-      if (!user || !user.allergens) {
-        res.status(400).send('User not found or no allergens specified');
-        return;
-      }
-  
-      const dishes = await getAllDishesModel(Number(restaurantId));
-      if (!dishes) {
-        res.status(404).send('Restaurant not found or no dishes available');
-        return;
-      }
-  
-      let overlappingAllergens = [];
-  
-      for (const dish of dishes) {
-        const overlap = dish.allergies.filter(allergy => user.allergens.includes(allergy));
-        if (overlap.length > 0) {
-          overlappingAllergens.push({
-            dishName: dish.dishName,
-            overlappingAllergens: overlap
-          });
-        }
-      }
-  
-      res.status(200).json({ dishes, overlappingAllergens });
-    } catch (err) {
-      console.error("Error Details:", err);
-      res.status(500).send('Failed to get dishes');
+  try {
+    const restaurantId = req.params.restaurantId;
+    const userId = req.user.userID; 
+
+    const user = await User.findOne({ _id: userId });
+    if (!user || !user.allergens) {
+      res.status(400).send('User not found or no allergens specified');
+      return;
     }
+
+    const dishes = await getAllDishesModel(Number(restaurantId));
+    if (!dishes) {
+      res.status(404).send('Restaurant not found or no dishes available');
+      return;
+    }
+
+    let overlappingAllergens = [];
+
+    for (const dish of dishes) {
+      const parsedAllergies = JSON.parse(dish.allergies);
+      
+      const overlap = parsedAllergies.filter(allergy => user.allergens.includes(allergy)).map(id => allergyListNice[id]);
+      
+      if (overlap.length > 0) {
+        overlappingAllergens.push({
+          dishName: dish.dishName,
+          overlappingAllergens: overlap 
+        });
+      }
+    }
+
+    res.status(200).json({ dishes, overlappingAllergens });
+  } catch (err) {
+    console.error("Error Details:", err);
+    res.status(500).send('Failed to get dishes');
   }
+}
 
 module.exports = {  addProvider, addDish, currentlyOnMenu, currentlyOffMenu, getAllDishes };
 
