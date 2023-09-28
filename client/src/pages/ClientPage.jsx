@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
 
 import '../css/ClientPage.css';
 import { AuthContext } from '../contexts/AuthContext';
@@ -27,9 +28,11 @@ const ClientPage = () => {
 
     const navigate = useNavigate();
 
-    const getAllData = (restaurantid, loggedinUser) => {
+    const getAllData = async (loggedinUser) => {
         try {
-
+            const response = await axios.get(`http://localhost:8080/providers/restaurant/${restaurantid}`, { withCredentials: true });
+            console.log(response.data);
+            setDishesArr(response.data);
         } catch (err) {
 
         }
@@ -39,6 +42,7 @@ const ClientPage = () => {
         if (!loggedinUser) {
             navigate('/login');
         }
+        getAllData();
     }, []);
 
     return (<>

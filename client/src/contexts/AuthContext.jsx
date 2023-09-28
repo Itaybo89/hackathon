@@ -9,6 +9,7 @@ const AuthContextProvider = ({ children }) => {
     const getUserDetails = async () => {
         try {
             const response = await axios.get('http://localhost:8080/users/details', { withCredentials: true });
+            console.log(response.data);
             return response.data;
         } catch (error) {
             console.log('Error retrieving user details:', error);
@@ -47,14 +48,6 @@ const AuthContextProvider = ({ children }) => {
             console.log(err);
         }
     };
-
-    const getDishes = async () => {
-        try {
-            const res = await axios.get('http://localhost:8080/providers/restaraunt/:id');
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     return (
         <AuthContext.Provider value={{ verifyUser, loggedinUser, addUser }}>
