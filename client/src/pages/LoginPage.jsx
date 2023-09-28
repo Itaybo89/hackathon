@@ -31,8 +31,12 @@ const LoginPage = () => {
             password: loginFormHolder.password,
         };
         const res = await verifyUser(userInfo);
+        console.log(res);
         if (res) {
             navigate('/client-page/1');
+        }
+        else {
+            console.log('something went wrong');
         }
     }
 

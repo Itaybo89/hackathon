@@ -29,6 +29,7 @@ const AuthContextProvider = ({ children }) => {
                 console.log('Login successful');
                 const userDetails = await getUserDetails();
                 setLoggedinUser(userDetails);
+                return userDetails;
             } else {
                 console.log('Login failed');
             }
