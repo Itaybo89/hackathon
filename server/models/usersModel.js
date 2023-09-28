@@ -12,7 +12,6 @@ const getUserDetailsModel = async (userID) => {
     try {
         const userDetails = await User.findOne(
             { _id: userID },
-            'email first_name last_name phone_number short_bio role' // Fields to return
         );
 
         return userDetails;

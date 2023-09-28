@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { getUserByEmail } = require('../models/usersModel'); 
+require('dotenv').config();
+const { getUserByEmailModel } = require('../models/usersModel'); 
 const authenticateJWT = async (req, res, next) => {
   console.log("Request cookies: ", req.cookies);
 
@@ -12,9 +13,10 @@ const authenticateJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     console.log("Token decoded: ", decoded);
 
-    const user = await getUserByEmail(decoded.email);
-    if (user && user.userID) {
-      req.user = { ...decoded, userID: user.userID }; 
+    
+    const user = await getUserByEmailModel(decoded.email);
+    if (user && user._id) {
+      req.user = { ...decoded, userID: user._id }; 
       next();
     } else {
       res.status(404).send('User ID not found for the given email');

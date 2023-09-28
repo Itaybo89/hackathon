@@ -7,7 +7,7 @@ const UsersController = require('../controllers/usersController');
 
 router.post('/', UsersController.addUser);
 
-router.post('/login', authenticateJWT, UsersController.loginUser)
+router.post('/login',  UsersController.loginUser)
 
 router.get('/details', authenticateJWT, UsersController.getUserDetails);
 // router.delete('/:id', authenticateJWT, UsersController.deleteUser);

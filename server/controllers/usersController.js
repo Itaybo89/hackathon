@@ -1,13 +1,15 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../mongo/usersSchema"); 
+require('dotenv').config();
 const { getUserByEmailModel, addUserModel, getUserDetailsModel } = require('../models/usersModel'); 
 const secretKey = process.env.SECRET_KEY;
 
 async function loginUser(req, res) {
     try {
+        
         const user = await getUserByEmailModel(req.body.email);
-
+        
         if (!user) {
             res.status(401).send('Invalid email or password');
             return;
@@ -24,6 +26,7 @@ async function loginUser(req, res) {
             secretKey,
             { expiresIn: '30d' }
         );
+        console.log(token);
 
         res.cookie('token', token, { httpOnly: true })
             .status(200)
