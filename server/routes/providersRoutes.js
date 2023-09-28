@@ -16,9 +16,13 @@ router.post('/currentlyonmenu', authenticateJWT, providersController.currentlyOn
 
 router.post('/currentlyoffmenu', authenticateJWT, providersController.currentlyOffMenu);
 
-router.delete('/:id',authenticateJWT, providersController.deleteDish);
+router.get('/restaraunt/:id', authenticateJWT, providersController.getAllDishes);
 
-router.patch('/edit/:id', authenticateJWT, providersController.editDish);
+
+
+// router.delete('/:id',authenticateJWT, providersController.deleteDish);
+
+// router.patch('/edit/:id', authenticateJWT, providersController.editDish);
 
 
 

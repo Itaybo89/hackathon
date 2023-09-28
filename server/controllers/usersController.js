@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../mongo/usersSchema"); 
-const { getUserByEmailModel, addUserModel, updateUserByEmailModel } = require('../models/usersModel'); 
+const { getUserByEmailModel, addUserModel, getUserDetailsModel } = require('../models/usersModel'); 
 const secretKey = process.env.SECRET_KEY;
 
 async function loginUser(req, res) {
@@ -36,9 +36,9 @@ const saltRounds = 10;
 
 async function addUser(req, res) {
     try {
-        const { email, password, username } = req.body;
+        const { email, password, username, allergens } = req.body;
 
-        if (!email || !password || !username) {
+        if (!email || !password || !username || !allergens) {
             res.status(400).send('Email, username and password are required');
             return;
         }
@@ -49,6 +49,7 @@ async function addUser(req, res) {
             email,
             password: hashedPassword,
             username,
+            allergens,
             role: 'user',
         };
 
@@ -61,28 +62,47 @@ async function addUser(req, res) {
     }
 }
 
-async function updateUserProfile(req, res) {
+const getUserDetails = async (req, res) => {
     try {
-        const userEmail = req.user.email;
-        const { first_name, last_name, phone_number, short_bio } = req.body;
+        const userID = req.user.userID;
 
-        const updatedUserDetails = {
-            first_name,
-            last_name,
-            phone_number,
-            short_bio
-        };
+        // Calling the model function, which I assume interacts with MongoDB
+        const userDetails = await getUserDetailsModel(userID);
 
-        const updatedUser = await updateUserByEmailModel(userEmail, updatedUserDetails);
-
-        if (updatedUser) {
-            res.status(200).send('User profile updated');
+        if (userDetails) {
+            res.status(200).json(userDetails);
         } else {
             res.status(404).send('User not found');
         }
-    } catch (err) {
-        res.status(500).send('Failed to update user profile');
+    } catch (error) {
+        console.log('Error in getUserDetails:', error);
+        res.status(500).send('Internal Server Error');
     }
-}
+};
 
-module.exports = { addUser, loginUser, updateUserProfile };
+module.exports = { addUser, loginUser, getUserDetails };
+
+
+// async function updateUserProfile(req, res) {
+//     try {
+//         const userEmail = req.user.email;
+//         const { first_name, last_name, phone_number, short_bio } = req.body;
+
+//         const updatedUserDetails = {
+//             first_name,
+//             last_name,
+//             phone_number,
+//             short_bio
+//         };
+
+//         const updatedUser = await updateUserByEmailModel(userEmail, updatedUserDetails);
+
+//         if (updatedUser) {
+//             res.status(200).send('User profile updated');
+//         } else {
+//             res.status(404).send('User not found');
+//         }
+//     } catch (err) {
+//         res.status(500).send('Failed to update user profile');
+//     }
+// }
