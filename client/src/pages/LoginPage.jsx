@@ -33,7 +33,7 @@ const LoginPage = () => {
         const res = await verifyUser(userInfo);
         console.log(res);
         if (res) {
-            navigate('/client-page/1');
+            navigate('/client-page/2');
         }
         else {
             console.log('something went wrong');

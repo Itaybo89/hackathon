@@ -137,7 +137,7 @@ async function currentlyOffMenu(req, res) {
 async function getAllDishes(req, res) {
   try {
     const restaurantId = req.params.restaurantId;
-    const userId = req.user.userID; 
+    const userId = req.user.userID;
 
     const user = await User.findOne({ _id: userId });
     if (!user || !user.allergens) {
@@ -151,27 +151,29 @@ async function getAllDishes(req, res) {
       return;
     }
 
-    let overlappingAllergens = [];
+    let allOverlappingDishesAndAllergens = [];
 
     for (const dish of dishes) {
       const parsedAllergies = JSON.parse(dish.allergies);
-      
-      const overlap = parsedAllergies.filter(allergy => user.allergens.includes(allergy)).map(id => allergyListNice[id]);
-      
+      const overlap = parsedAllergies
+        .filter(allergy => user.allergens.includes(allergy))
+        .map(id => allergyListNice[id]);
+
       if (overlap.length > 0) {
-        overlappingAllergens.push({
-          dishName: dish.dishName,
-          overlappingAllergens: overlap 
-        });
+        allOverlappingDishesAndAllergens.push([dish.dishName, overlap]);
       }
     }
 
-    res.status(200).json({ dishes, overlappingAllergens });
+    res.status(200).json({
+      allOverlappingDishesAndAllergens,
+      userName: user.name,
+    });
   } catch (err) {
     console.error("Error Details:", err);
     res.status(500).send('Failed to get dishes');
   }
 }
+
 
 module.exports = {  addProvider, addDish, currentlyOnMenu, currentlyOffMenu, getAllDishes };
 

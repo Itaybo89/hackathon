@@ -10,7 +10,7 @@ const ClientNavbar = () => {
 
         <Navbar bg="info" data-bs-theme="info">
             <Container >
-                <Navbar.Brand>AppName</Navbar.Brand>
+                <Navbar.Brand>ScanEat</Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
                     <FaUserCircle style={{ color: 'white' }} />
                 </Navbar.Collapse>
