@@ -9,7 +9,7 @@ router.post('/', UsersController.addUser);
 
 router.post('/login', authenticateJWT, UsersController.loginUser)
 
-// router.get('/profile', authenticateJWT, UsersController.getUserDetails);
+router.get('/details', authenticateJWT, UsersController.getUserDetails);
 // router.delete('/:id', authenticateJWT, UsersController.deleteUser);
 // router.patch('/profile', authenticateJWT, UsersController.updateUserProfile);
 

@@ -66,7 +66,6 @@ const getUserDetails = async (req, res) => {
     try {
         const userID = req.user.userID;
 
-        // Calling the model function, which I assume interacts with MongoDB
         const userDetails = await getUserDetailsModel(userID);
 
         if (userDetails) {
