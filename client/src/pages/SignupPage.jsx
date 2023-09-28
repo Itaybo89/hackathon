@@ -1,18 +1,22 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
 
+import { AuthContext } from '../contexts/AuthContext';
 import ClientNavbar from '../components/ClientNavbar';
 import '../css/SignupPage.css';
 
 const SignupPage = () => {
+    const navigate = useNavigate();
+
+    const { addUser } = useContext(AuthContext);;
+
     const [signupFormHolder, setSignupFormHolder] = useState({
-        firstName: '',
-        lastName: '',
+        userName: '',
         email: '',
         password: '',
-        rePassword: '',
         allergens: []
     });
 
@@ -37,10 +41,10 @@ const SignupPage = () => {
         }
     };
 
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
-
-        console.log(signupFormHolder.allergens);
+        await addUser(signupFormHolder);
+        navigate('/login');
     }
 
     return (<>
@@ -52,16 +56,9 @@ const SignupPage = () => {
                 <Form className="login-form"
                     onSubmit={handleSignup}>
 
-                    <FloatingLabel label="First name" className="mb-3">
-                        <Form.Control name="firstName" type="text" placeholder=" "
+                    <FloatingLabel label="User name" className="mb-3">
+                        <Form.Control name="username" type="text" placeholder=" "
                             value={signupFormHolder.firstName}
-                            onChange={handleSignupFields}
-                        />
-                    </FloatingLabel>
-
-                    <FloatingLabel label="Last name" className="mb-3">
-                        <Form.Control name="lastName" type="text" placeholder=" "
-                            value={signupFormHolder.lastName}
                             onChange={handleSignupFields}
                         />
                     </FloatingLabel>
@@ -82,8 +79,6 @@ const SignupPage = () => {
 
                     <FloatingLabel label="Confirm password" className="mb-3">
                         <Form.Control name="rePassword" type="password" placeholder=" "
-                            value={signupFormHolder.rePassword}
-                            onChange={handleSignupFields}
                         />
                     </FloatingLabel>
 
@@ -91,20 +86,20 @@ const SignupPage = () => {
                         <Form.Label>Mark the foods you are allergic to:</Form.Label>
                         <div className="allergens-checkboxes">
                             {[
-                                { value: 'gluten', label: 'Gluten' },
-                                { value: 'milk', label: 'Milk' },
-                                { value: 'fish', label: 'Fish' },
-                                { value: 'eggs', label: 'Eggs' },
-                                { value: 'peanuts', label: 'Peanuts' },
-                                { value: 'nuts', label: 'Nuts' },
-                                { value: 'soya', label: 'Soya' },
-                                { value: 'celery', label: 'Celery' },
-                                { value: 'crustaceans', label: 'Crustaceans' },
-                                { value: 'sulphurDioxide', label: 'Sulphur dioxide' },
-                                { value: 'sesameSeeds', label: 'Sesame seeds' },
-                                { value: 'mustard', label: 'Mustard' },
-                                { value: 'molluscs', label: 'Molluscs' },
-                                { value: 'lupin', label: 'Lupin' }
+                                { value: '1', label: 'Gluten' },
+                                { value: '6', label: 'Milk' },
+                                { value: '4', label: 'Fish' },
+                                { value: '3', label: 'Eggs' },
+                                { value: '10', label: 'Peanuts' },
+                                { value: '9', label: 'Nuts' },
+                                { value: '13', label: 'Soya' },
+                                { value: '0', label: 'Celery' },
+                                { value: '2', label: 'Crustaceans' },
+                                { value: '12', label: 'Sulphur dioxide' },
+                                { value: '11', label: 'Sesame seeds' },
+                                { value: '8', label: 'Mustard' },
+                                { value: '7', label: 'Molluscs' },
+                                { value: '5', label: 'Lupin' }
                             ].map(allergen => (
                                 <Form.Check
                                     key={allergen.value}
