@@ -14,7 +14,7 @@ const LoginPage = () => {
         password: ''
     });
 
-    const { signUserUp, logUserIn, token, userId } = useContext(AuthContext);
+    const { verifyUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -30,10 +30,9 @@ const LoginPage = () => {
             email: loginFormHolder.email,
             password: loginFormHolder.password,
         };
-        const res = await logUserIn(userInfo);
-        console.log(userId);
+        const res = await verifyUser(userInfo);
         if (res) {
-            navigate('/game');
+            navigate('/client-page/1');
         }
     }
 
