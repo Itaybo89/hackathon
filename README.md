@@ -6,6 +6,17 @@ ScanEat is an innovative platform designed for restaurants to manage their menus
 ## Live Demo
 [Click here to visit ScanEat](http://scaneat.herokuapp.com/)
 
+## Screenshots
+Below are screenshots demonstrating the core functionalities of ScanEat:
+
+- **Restaurant Dashboard**
+![Restaurant Dashboard](./images/pictures/image1.jpg)
+
+- **Personalized Page**
+![Personalized Page](./images/pictures/image2.jpg)
+
+These images showcase the user interface for restaurant management and the personalized page for customers, highlighting ScanEat's focus on user experience and safety.
+
 ## Table of Contents
 - [About The Project](#about-the-project)
 - [Technologies Used](#technologies-used)
@@ -15,7 +26,6 @@ ScanEat is an innovative platform designed for restaurants to manage their menus
 - [Contributors](#contributors)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
-- [Screenshots](#screenshots)
 
 ## About The Project
 ScanEat aims to address the challenge of allergen communication in restaurants by providing an easy-to-use platform for managing dish ingredients and allergen information. By simplifying the process of identifying allergens, ScanEat aids in preventing allergic reactions and ensuring a safer dining experience for customers with food allergies.
@@ -52,7 +62,7 @@ This project requires Node.js and npm installed on your machine. Clone the repos
    ```
    npm run start
    ```
-   The server will be running on `http://localhost:8080`. Make sure to enable CORS for `http://localhost:3000`.
+   The server will be running on [http://localhost:8080](http://localhost:8080). Make sure to enable CORS for [http://localhost:3000](http://localhost:3000).
 5. Open a new terminal window/tab, navigate back to the project directory, and install dependencies for the client:
    ```
    cd ..
@@ -63,7 +73,7 @@ This project requires Node.js and npm installed on your machine. Clone the repos
    ```
    npm start
    ```
-   The client should now be running on `http://localhost:3000`.
+   The client should now be running on [http://localhost:3000](http://localhost:3000).
 
 ## Database Schema Examples
 ```javascript
@@ -92,10 +102,4 @@ const providerSchema = new Schema({
 - Special thanks to our instructors at ITC for their guidance and support throughout the project.
 
 ## Acknowledgments
-This project was a collaborative effort made possible by the hard work and dedication of our team and the invaluable input from our mentors. We're grateful for the opportunity to work on this innovative solution during the hackathon.
-
-## License
-This project is open source and available under the [MIT License](LICENSE.md).
-
-## Screenshots
-*Screenshots of the project will be added here in the future.*
+This project was a collaborative effort made possible by the hard work and dedication of our team members and the support of our instructors at ITC.
