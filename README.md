@@ -1,19 +1,18 @@
+Certainly! Here's the revised README without the code snippet design:
+
 # ScanEat
 
 ## Project Overview
 ScanEat is an innovative platform designed for restaurants to manage their menus with a focus on allergen awareness. Developed over a two-day hackathon by a team of three, this project leverages React for the frontend, Node.js for the backend, and MongoDB for database management. ScanEat enables restaurants to create accounts, add dishes with ingredients (excluding recipes), and automatically generates barcodes for each dish. When scanned, these barcodes reveal potential allergens to customers, thanks to AI-powered analysis, enhancing dining safety for individuals with allergies.
 
-## Live Demo
-[Click here to visit ScanEat](http://scaneat.herokuapp.com/)
-
 ## Screenshots
 Below are screenshots demonstrating the core functionalities of ScanEat:
 
 - **Restaurant Dashboard**
-![Restaurant Dashboard](./images/pictures/image1.jpg)
+![Restaurant Dashboard](images/image1.JPG)
 
 - **Personalized Page**
-![Personalized Page](./images/pictures/image2.jpg)
+![Personalized Page](images/image2.JPG)
 
 These images showcase the user interface for restaurant management and the personalized page for customers, highlighting ScanEat's focus on user experience and safety.
 
@@ -45,30 +44,36 @@ ScanEat aims to address the challenge of allergen communication in restaurants b
 
 ## Setup / Installation
 This project requires Node.js and npm installed on your machine. Clone the repository, install dependencies for both the client and server, and start the respective development servers.
+
 1. Clone the repository to your local machine:
    ```
    git clone https://github.com/Itaybo89/hackathon.git
    ```
+
 2. Navigate to the project directory:
    ```
    cd hackathon
    ```
+
 3. Install dependencies for the server:
    ```
    cd server
    npm install
    ```
+
 4. Start the server:
    ```
    npm run start
    ```
    The server will be running on [http://localhost:8080](http://localhost:8080). Make sure to enable CORS for [http://localhost:3000](http://localhost:3000).
+
 5. Open a new terminal window/tab, navigate back to the project directory, and install dependencies for the client:
    ```
    cd ..
    cd client
    npm install
    ```
+
 6. Start the client:
    ```
    npm start
