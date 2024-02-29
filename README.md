@@ -1,5 +1,3 @@
-Certainly! Here's the revised README without the code snippet design:
-
 # ScanEat
 
 ## Project Overview
